@@ -73,6 +73,7 @@ namespace ConsumirServicioUploadfile
         private void btnCargarArchivos_Click(object sender, EventArgs e)
         {
             Stopwatch tiempoPorArchivo = new Stopwatch();
+            Stopwatch tiempoArchivos = new Stopwatch();
             listBox1.Items.Clear();
             DirectoryInfo di = new DirectoryInfo(@"C:\Archivos");
             List<string> archivos = new List<string>();
@@ -81,6 +82,7 @@ namespace ConsumirServicioUploadfile
                 archivos.Add(fi.Name);
             }
             log.Info("---------Iniciando proceso carga de archivos..." + Environment.NewLine);
+            tiempoArchivos.Start();
             foreach (string archivo in archivos)
             {
                 log.Info("Iniciando carga|" + archivo + Environment.NewLine);
@@ -100,6 +102,9 @@ namespace ConsumirServicioUploadfile
                 string tiempoTranscurrido = string.Format("{0}:{1}.{2}",tiempoPorArchivo.Elapsed.Minutes, tiempoPorArchivo.Elapsed.Seconds, tiempoPorArchivo.Elapsed.Milliseconds);
                 log.Info("Terminada carga archivo|" + archivo + "|Tiempo|" + tiempoTranscurrido + "|Mensaje|" + data2 + Environment.NewLine);
             }
+            tiempoArchivos.Stop();
+            string tiempoTranscurridoServicio = string.Format("{0}:{1}.{2}", tiempoArchivos.Elapsed.Minutes, tiempoArchivos.Elapsed.Seconds, tiempoArchivos.Elapsed.Milliseconds);
+            log.Info("---------Terminada carga de archivos" + "|Tiempo total del servicio|" + tiempoTranscurridoServicio + Environment.NewLine);
         }
 
         private void checkBox1_CheckStateChanged(object sender, EventArgs e)
